@@ -37,6 +37,24 @@ public class SpittleControllerTest {
 
     }
 
+    @Test
+    public void shouldShowPagedSpittles() throws Exception {
+        List<Spittle> expectedSpittles = createSpittleList(20);
+        SpittleRepository mockRepository =  mock(SpittleRepository.class);
+        when(mockRepository.findSpittles(238900, 20)).thenReturn(expectedSpittles);
+
+        SpittleController controller = new SpittleController(mockRepository);
+        MockMvc mockMvc = standaloneSetup(controller)
+                .setSingleView(new InternalResourceView("/WEB-INF/views/spittles.jsp"))
+                .build();
+
+        mockMvc.perform(get("/spittles?max=238900&count=50"))
+                .andExpect(view().name("spittles"))
+                .andExpect(model().attributeExists("spittleList"))
+                .andExpect(model().attribute("spittleList",
+                        hasItems(expectedSpittles.toArray())));
+
+    }
 
     /******************************************** UTILS ********************************************/
 
@@ -48,4 +66,7 @@ public class SpittleControllerTest {
         return spittles;
     }
 
+    @Test
+    public void showSpittle() {
+    }
 }
