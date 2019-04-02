@@ -1,7 +1,9 @@
 package spittr.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +18,7 @@ public class SpittleController {
     public static final String MAX_LONG_AS_STRING = "9223372036854775807";
     private SpittleRepository spittleRepository;
 
+    @Autowired
     public SpittleController(SpittleRepository spittleRepository) {
         this.spittleRepository = spittleRepository;
     }
@@ -28,9 +31,11 @@ public class SpittleController {
         return spittleRepository.findSpittles(max, count);
     }
 
-    @RequestMapping(value = "/show", method = RequestMethod.GET)
-    public String showSpittle(@RequestParam("spittle_id") long spittleId, Model model){
+    @RequestMapping(value = "/{spittleId}", method = RequestMethod.GET)
+    public String spittle(@PathVariable long spittleId, Model model){
         model.addAttribute(spittleRepository.findOne(spittleId));
         return "spittle";
     }
+
+
 }
