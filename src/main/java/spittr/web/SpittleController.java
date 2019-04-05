@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import spittr.Spittle;
 import spittr.data.SpittleRepository;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -37,5 +38,12 @@ public class SpittleController {
         return "spittle";
     }
 
+    @RequestMapping(method = RequestMethod.POST)
+    public String saveSpittle(SpittleForm form, Model model){
+        spittleRepository.save(
+                new Spittle(null, form.getMessage(), new Date(),
+                        form.getLongitude(), form.getLatitude()));
+        return "redirect:/spittles";
+    }
 
 }

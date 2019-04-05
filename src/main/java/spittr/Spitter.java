@@ -28,7 +28,7 @@ public class Spitter {
   @NotNull
   @Size(min=2, max=30)
   private String lastName;
-  
+
   @NotNull
   @Email
   private String email;
@@ -46,6 +46,7 @@ public class Spitter {
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
+
   }
 
   public String getUsername() {
